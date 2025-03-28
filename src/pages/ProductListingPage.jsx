@@ -17,17 +17,17 @@ const ProductListingPage = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-    dispatch(setSubcategory(category));
-  }, [dispatch, category]);
+  }, [dispatch]);
 
   const { products, status, error } = useSelector((state) => state.products);
-  const { price, rating } = useSelector((state) => state.filters);
+  const { price, rating, subcategory } = useSelector((state) => state.filters);
   const selectedCategory = category;
   const filteredProducts = products.filter(
     (product) =>
       (category === "Home" || product.category === category) &&
       (price === 0 || product.price <= price) &&
-      (rating === 0 || product.rating === rating)
+      (rating === 0 || product.rating === rating) &&
+      (subcategory.length === 0 || subcategory.includes(product.subcategory))
   );
 
   if (status === "loading") {
@@ -66,7 +66,7 @@ const ProductListingPage = () => {
                   <span>150</span>
                   <span>200</span>
                 </div>
-                <p>Selected Price: {}</p>
+                <p>Selected Price: {price}</p>
               </section>
               <section className="mb-3">
                 <h5>Sub Category</h5>
