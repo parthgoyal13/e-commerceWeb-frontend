@@ -4,13 +4,12 @@ import ProductListingPage from "./pages/ProductListingPage";
 import Cart from "./pages/Cart";
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products/:category" element={<ProductListingPage />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/products/:category" element={<ProductListingPage />} />
+
+      <Route path="/cart" element={<Cart />} />
+    </Routes>
   );
 }
 
