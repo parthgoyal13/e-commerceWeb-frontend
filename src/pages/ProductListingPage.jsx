@@ -1,34 +1,50 @@
-import { useParams, Link } from "react-router-dom";
 import React, { useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../redux/productsSlice";
+import Header from "../components/Header";
+import { toggleWishlist } from "../redux/wishlistSlice";
 import {
-  setSubcategory,
+  fetchProducts,
   setPrice,
   setRating,
+  setSubcategory,
+  setSortByPrice,
   clearFilters,
-} from "../redux/filtersSlice";
-
-import Header from "../components/Header";
+} from "../redux/productsSlice";
+import {
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+} from "../redux/cartSlice";
 
 const ProductListingPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { category } = useParams();
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+  const wishlist = useSelector((state) => state.wishlist.items);
+  const cart = useSelector((state) => state.cart.cartItems);
 
-  const { products, status, error } = useSelector((state) => state.products);
-  const { price, rating, subcategory } = useSelector((state) => state.filters);
-  const selectedCategory = category;
-  const filteredProducts = products.filter(
-    (product) =>
-      (category === "Home" || product.category === category) &&
-      (price === 0 || product.price <= price) &&
-      (rating === 0 || product.rating === rating) &&
-      (subcategory.length === 0 || subcategory.includes(product.subcategory))
-  );
+  const { products, status, error, price, rating, subcategory, sortByPrice } =
+    useSelector((state) => state.products);
+
+  useEffect(() => {
+    if (category === "Home") {
+      dispatch(
+        fetchProducts({ price, rating, subcategory, sort: sortByPrice })
+      );
+    } else {
+      dispatch(
+        fetchProducts({
+          category,
+          price,
+          rating,
+          subcategory,
+          sort: sortByPrice,
+        })
+      );
+    }
+  }, [dispatch, category, price, rating, subcategory, sortByPrice]);
 
   if (status === "loading") {
     return <h2>Loading products...</h2>;
@@ -40,7 +56,7 @@ const ProductListingPage = () => {
     <>
       <Header />
       <div className="container mt-4">
-        <h2 className="text-center mb-4">Products in {selectedCategory}</h2>
+        <h2 className="text-center mb-4">Products in {category}</h2>
 
         <div className="row">
           <div className="col-md-3">
@@ -52,105 +68,143 @@ const ProductListingPage = () => {
               >
                 Clear filter
               </Link>
-              <section className="mb-3">
+              <section className="mb-3 position-relative">
                 <h5>Price</h5>
+                <div className="d-flex justify-content-between position-relative w-100">
+                  <span className="position-absolute start-0 translate-middle-x text-muted fw-light">
+                    50
+                  </span>
+                  <span className="position-absolute start-50 translate-middle-x text-muted fw-light">
+                    150
+                  </span>
+                  <span className="position-absolute start-100 translate-middle-x text-muted fw-light">
+                    200
+                  </span>
+                </div>
                 <input
                   type="range"
-                  min="10"
+                  className="form-range w-100 mt-3"
+                  min="50"
                   max="200"
                   step="10"
+                  value={price}
                   onChange={(e) => dispatch(setPrice(Number(e.target.value)))}
                 />
-                <div className="">
-                  <span>50</span>
-                  <span>150</span>
-                  <span>200</span>
-                </div>
                 <p>Selected Price: {price}</p>
               </section>
+
               <section className="mb-3">
                 <h5>Sub Category</h5>
-                <input
-                  type="checkbox"
-                  value="Summer"
-                  onChange={(e) => dispatch(setSubcategory(e.target.value))}
-                />{" "}
-                Summer <br />
-                <input
-                  type="checkbox"
-                  value="Winter"
-                  onChange={(e) => dispatch(setSubcategory(e.target.value))}
-                />{" "}
-                Winter <br />
-                <input
-                  type="checkbox"
-                  value="Formal"
-                  onChange={(e) => dispatch(setSubcategory(e.target.value))}
-                />{" "}
-                Formal <br />
+                {["Summer", "Winter", "Formal"].map((sub) => (
+                  <div key={sub}>
+                    <input
+                      type="checkbox"
+                      value={sub}
+                      checked={subcategory.includes(sub)}
+                      onChange={(e) =>
+                        dispatch(
+                          setSubcategory({
+                            subcategory: sub,
+                            checked: e.target.checked,
+                          })
+                        )
+                      }
+                    />{" "}
+                    {sub}
+                  </div>
+                ))}
               </section>
+
               <section className="mb-3">
                 <h5>Rating</h5>
+                {[5, 4, 3, 2].map((rate) => (
+                  <div key={rate}>
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={rate}
+                      checked={rating === rate}
+                      onChange={() => dispatch(setRating(rate))}
+                    />{" "}
+                    {"⭐".repeat(rate)}
+                  </div>
+                ))}
+              </section>
+
+              <section className="mb-3">
+                <h5>Sort by Price</h5>
                 <input
                   type="radio"
-                  name="rating"
-                  value="5"
-                  onChange={() => dispatch(setRating(5))}
+                  name="sortByPrice"
+                  value="lowToHigh"
+                  checked={sortByPrice === "lowToHigh"}
+                  onChange={(e) => dispatch(setSortByPrice(e.target.value))}
                 />{" "}
-                ⭐⭐⭐⭐⭐ <br />
+                Low to High <br />
                 <input
                   type="radio"
-                  name="rating"
-                  value="4"
-                  onChange={() => dispatch(setRating(4))}
+                  name="sortByPrice"
+                  value="highToLow"
+                  checked={sortByPrice === "highToLow"}
+                  onChange={(e) => dispatch(setSortByPrice(e.target.value))}
                 />{" "}
-                ⭐⭐⭐⭐ <br />
-                <input
-                  type="radio"
-                  name="rating"
-                  value="3"
-                  onChange={() => dispatch(setRating(3))}
-                />{" "}
-                ⭐⭐⭐ <br />
-                <input
-                  type="radio"
-                  name="rating"
-                  value="2"
-                  onChange={() => dispatch(setRating(2))}
-                />{" "}
-                ⭐⭐ <br />
+                High to Low
+                <br />
               </section>
             </div>
           </div>
 
           <div className="col-md-9">
             <div className="row">
-              {filteredProducts.map((product) => (
-                <div className="col-md-4 mb-4" key={product._id}>
-                  <div className="card">
-                    <img
-                      src={product.image}
-                      className="card-img-top img-fluid"
-                      alt="productImg"
-                    />
-                    <div className="card-body">
+              {" "}
+              {products.map((product) => (
+                <div className="col-md-4 mb-4 flex" key={product._id}>
+                  <div className="card h-100">
+                    <Link
+                      to={`/product/${product._id}`}
+                      className="text-decoration-none text-dark"
+                    >
+                      <img
+                        src={product.image}
+                        className="card-img-top img-fluid"
+                        alt="productImg"
+                        style={{ height: "200px", objectFit: "cover" }}
+                      />
+                    </Link>
+
+                    <div className="card-body d-flex flex-column">
                       <h5 className="card-title">{product.name}</h5>
                       <p>Price: {product.price}</p>
                       <p>Rating: {product.rating} ⭐</p>
-                      {/* <button
-                        className="btn btn-primary me-2"
-                        onClick={() => handleCartClick(product)}
-                      >
-                        {cart.find((item) => item.id === product.id)
-                          ? "Go to Cart"
-                          : "Add to Cart"}
-                      </button>
+
+                      {cart.some((item) => item._id === product._id) ? (
+                        <button
+                          className="btn btn-success me-2"
+                          onClick={() => navigate("/cart")}
+                        >
+                          Go to Cart
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-primary me-2"
+                          onClick={() => dispatch(addToCart(product))}
+                        >
+                          Add to Cart
+                        </button>
+                      )}
+
                       <button
-                        className="btn btn-warning"
-                        onClick={() => handleWishlistClick(product)}
+                        className={
+                          wishlist.some((item) => item._id === product._id)
+                            ? "btn btn-danger"
+                            : "btn btn-warning"
+                        }
+                        onClick={() => dispatch(toggleWishlist(product))}
                       >
-                        Add to Wishlist
-                      </button> */}
+                        {wishlist.some((item) => item._id === product._id)
+                          ? "Remove from Wishlist"
+                          : "Add to Wishlist"}
+                      </button>
                     </div>
                   </div>
                 </div>

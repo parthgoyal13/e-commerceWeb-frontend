@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const clothingCategories = ["Men", "Women", "Kids", "Electronics", "Home"];
+  const clothingCategories = ["Men", "Women", "Kids", "Home"];
 
   return (
     <>
