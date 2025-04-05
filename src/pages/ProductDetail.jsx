@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductById } from "../redux/productsSlice";
 import { toggleWishlist } from "../redux/wishlistSlice";
-import { addToCart, updateCartQuantity } from "../redux/cartSlice";
+import { addItemToCart, updateCartQuantity } from "../redux/cartSlice";
 import Header from "../components/Header";
 
 const ProductDetail = () => {
@@ -51,7 +51,7 @@ const ProductDetail = () => {
                 })
               );
             } else {
-              dispatch(addToCart({ ...product, quantity: 1 }));
+              dispatch(addItemToCart({ ...product, quantity: 1 }));
             }
           }}
         >

@@ -12,8 +12,9 @@ import {
   clearFilters,
 } from "../redux/productsSlice";
 import {
-  addToCart,
-  removeFromCart,
+  fetchCart,
+  addItemToCart,
+  removeItemToCart,
   updateCartQuantity,
 } from "../redux/cartSlice";
 
@@ -45,6 +46,18 @@ const ProductListingPage = () => {
       );
     }
   }, [dispatch, category, price, rating, subcategory, sortByPrice]);
+
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
+
+  const handleAddToCart = (product) => {
+    dispatch(addItemToCart({ ...product })); // ✅ action dispatch
+  };
+
+  const isInCart = (name) => {
+    return cart.some((item) => item.name === name);
+  };
 
   if (status === "loading") {
     return <h2>Loading products...</h2>;
@@ -177,7 +190,7 @@ const ProductListingPage = () => {
                       <p>Price: {product.price}</p>
                       <p>Rating: {product.rating} ⭐</p>
 
-                      {cart.some((item) => item._id === product._id) ? (
+                      {isInCart(product.name) ? ( // ✅ match by name here
                         <button
                           className="btn btn-success me-2"
                           onClick={() => navigate("/cart")}
@@ -187,7 +200,7 @@ const ProductListingPage = () => {
                       ) : (
                         <button
                           className="btn btn-primary me-2"
-                          onClick={() => dispatch(addToCart(product))}
+                          onClick={() => handleAddToCart(product)}
                         >
                           Add to Cart
                         </button>

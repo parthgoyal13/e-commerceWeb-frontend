@@ -1,8 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
-  addToCart,
-  removeFromCart,
+  addItemToCart,
+  removeItemToCart,
+  fetchCart,
   updateCartQuantity,
 } from "../redux/cartSlice";
 import Header from "../components/Header";
@@ -12,21 +14,21 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.cartItems);
 
   const handleIncrease = (product) => {
-    dispatch(addToCart(product));
+    const updatedProduct = { ...product, quantity: 1 };
+    dispatch(addItemToCart(updatedProduct));
   };
-
   const handleDecrease = (product) => {
     if (product.quantity > 1) {
       dispatch(
         updateCartQuantity({ _id: product._id, quantity: product.quantity - 1 })
       );
     } else {
-      dispatch(removeFromCart(product));
+      dispatch(removeItemToCart(product._id));
     }
   };
 
   const handleRemove = (product) => {
-    dispatch(removeFromCart(product));
+    dispatch(removeItemToCart(product._id));
   };
 
   const totalPrice = cart.reduce(

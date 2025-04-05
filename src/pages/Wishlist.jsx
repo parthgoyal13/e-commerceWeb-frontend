@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../redux/wishlistSlice";
 import Header from "../components/Header";
-import { addToCart, updateCartQuantity } from "../redux/cartSlice";
+import { addItemToCart, updateCartQuantity } from "../redux/cartSlice";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const Wishlist = () => {
                             })
                           );
                         } else {
-                          dispatch(addToCart({ ...product, quantity: 1 }));
+                          dispatch(addItemToCart({ ...product, quantity: 1 }));
                         }
                       }}
                     >
