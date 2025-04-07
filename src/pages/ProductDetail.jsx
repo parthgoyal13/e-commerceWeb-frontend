@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductById } from "../redux/productsSlice";
-import { toggleWishlist } from "../redux/wishlistSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  fetchWishlist,
+} from "../redux/wishlistSlice";
 import { addItemToCart, updateCartQuantity } from "../redux/cartSlice";
 import Header from "../components/Header";
 
@@ -29,6 +33,15 @@ const ProductDetail = () => {
     return <h2>Product not found.</h2>;
   }
   const cartItem = cart.find((item) => item._id === product._id);
+
+  const isInWishlist = wishlist.some((item) => item._id === product._id);
+  const handleWishlistToggle = () => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(product._id));
+    } else {
+      dispatch(addToWishlist(product));
+    }
+  };
 
   return (
     <>
@@ -61,16 +74,10 @@ const ProductDetail = () => {
         </button>
 
         <button
-          className={
-            wishlist.some((item) => item._id === product._id)
-              ? "btn btn-danger"
-              : "btn btn-warning"
-          }
-          onClick={() => dispatch(toggleWishlist(product))}
+          className={isInWishlist ? "btn btn-danger" : "btn btn-warning"}
+          onClick={handleWishlistToggle}
         >
-          {wishlist.some((item) => item._id === product._id)
-            ? "Remove from Wishlist"
-            : "Add to Wishlist"}
+          {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
         </button>
       </div>
     </>

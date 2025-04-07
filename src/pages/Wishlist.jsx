@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleWishlist } from "../redux/wishlistSlice";
-import Header from "../components/Header";
+import { removeFromWishlist } from "../redux/wishlistSlice";
 import { addItemToCart, updateCartQuantity } from "../redux/cartSlice";
+import Header from "../components/Header";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const Wishlist = () => {
                     <p>Price: {product.price}</p>
                     <button
                       className="btn btn-danger me-2"
-                      onClick={() => dispatch(toggleWishlist(product))}
+                      onClick={() => dispatch(removeFromWishlist(product._id))}
                     >
                       Remove from Wishlist
                     </button>

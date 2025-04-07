@@ -10,7 +10,7 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
 
 export const addItemToCart = createAsyncThunk("cart/addItem", async (item) => {
   const response = await axios.post(url, item);
-  console.log("Add to Cart response:", response.data); // 👈 check this
+  console.log("Add to Cart response:", response.data);
   return response.data;
 });
 
@@ -58,7 +58,6 @@ const cartSlice = createSlice({
     builder.addCase(addItemToCart.fulfilled, (state, action) => {
       const newItem = action.payload;
 
-      // ✅ Match using name instead of _id
       const existingItem = state.cartItems.find(
         (item) => item.name === newItem.name
       );
@@ -66,7 +65,7 @@ const cartSlice = createSlice({
       if (existingItem) {
         existingItem.quantity = newItem.quantity;
       } else {
-        state.cartItems.push(newItem); // ✅ add new item
+        state.cartItems.push(newItem);
       }
     });
 

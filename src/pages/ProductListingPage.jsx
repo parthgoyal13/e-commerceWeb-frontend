@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
-import { toggleWishlist } from "../redux/wishlistSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  fetchWishlist,
+} from "../redux/wishlistSlice";
 import {
   fetchProducts,
   setPrice,
@@ -52,7 +56,7 @@ const ProductListingPage = () => {
   }, [dispatch]);
 
   const handleAddToCart = (product) => {
-    dispatch(addItemToCart({ ...product })); // ✅ action dispatch
+    dispatch(addItemToCart({ ...product }));
   };
 
   const isInCart = (name) => {
@@ -190,7 +194,7 @@ const ProductListingPage = () => {
                       <p>Price: {product.price}</p>
                       <p>Rating: {product.rating} ⭐</p>
 
-                      {isInCart(product.name) ? ( // ✅ match by name here
+                      {isInCart(product.name) ? (
                         <button
                           className="btn btn-success me-2"
                           onClick={() => navigate("/cart")}
@@ -212,7 +216,15 @@ const ProductListingPage = () => {
                             ? "btn btn-danger"
                             : "btn btn-warning"
                         }
-                        onClick={() => dispatch(toggleWishlist(product))}
+                        onClick={() => {
+                          if (
+                            wishlist.some((item) => item._id === product._id)
+                          ) {
+                            dispatch(removeFromWishlist(product._id));
+                          } else {
+                            dispatch(addToWishlist(product));
+                          }
+                        }}
                       >
                         {wishlist.some((item) => item._id === product._id)
                           ? "Remove from Wishlist"
