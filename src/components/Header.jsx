@@ -33,8 +33,11 @@ const Header = () => {
                   </button>
                 </form>
               </div>
-              <Link className="nav-link active" aria-current="page" to="#">
+              <Link className="nav-link " to="/login">
                 Login
+              </Link>
+              <Link className="nav-link" to="/signup">
+                Sign
               </Link>
               <Link className="nav-link" to="/wishlist">
                 Wishlist

@@ -8,6 +8,7 @@ import {
   updateCartQuantity,
 } from "../redux/cartSlice";
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -86,7 +87,9 @@ const Cart = () => {
         {cart.length > 0 && (
           <div className="mt-4 p-3 border rounded shadow">
             <h4>Total Price: ₹{totalPrice.toFixed(2)}</h4>
-            <button className="btn btn-success">Proceed to Checkout</button>
+            <Link to="/checkout">
+              <button className="btn btn-success">Proceed to Checkout</button>
+            </Link>
           </div>
         )}
       </div>

@@ -14,12 +14,9 @@ export const fetchWishlist = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   "wishlist/addToWishlist",
   async (product) => {
-    const response = await axios.post(
-      "https://e-commerce-web-backend-alpha.vercel.app/wishlist",
-      {
-        products: [{ productId: product._id }],
-      }
-    );
+    const response = await axios.post(url, {
+      products: [{ productId: product._id }],
+    });
 
     // Return the original product to store in Redux
     return product;
