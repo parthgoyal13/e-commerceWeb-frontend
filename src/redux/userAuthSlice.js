@@ -89,8 +89,6 @@ const userAuthSlice = createSlice({
     builder.addCase(signupUser.fulfilled, (state, action) => {
       console.log("Signup Success Payload:", action.payload);
       state.loading = false;
-      // ❌ DON'T set user/token here
-      // ✅ Only show success in UI, user will login later manually
     });
     builder.addCase(signupUser.rejected, (state, action) => {
       state.loading = false;

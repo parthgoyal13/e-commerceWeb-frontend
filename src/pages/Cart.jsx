@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
   addItemToCart,
   removeItemToCart,
@@ -9,6 +8,7 @@ import {
 } from "../redux/cartSlice";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -17,26 +17,39 @@ const Cart = () => {
   const handleIncrease = (product) => {
     const updatedProduct = { ...product, quantity: 1 };
     dispatch(addItemToCart(updatedProduct));
+    toast.success(`${product.name} quantity increased`);
   };
+
   const handleDecrease = (product) => {
     if (product.quantity > 1) {
       dispatch(
         updateCartQuantity({ _id: product._id, quantity: product.quantity - 1 })
       );
+      toast.info(`${product.name} quantity decreased`);
     } else {
       dispatch(removeItemToCart(product._id));
+      toast.warn(`${product.name} removed from cart`);
     }
   };
 
   const handleRemove = (product) => {
     dispatch(removeItemToCart(product._id));
+    toast.error(`${product.name} removed from cart`);
   };
 
   const totalPrice = cart.reduce(
     (sum, product) => sum + product.price * product.quantity,
     0
   );
+  const { cartItems, loading } = useSelector((state) => state.cart);
 
+  useEffect(() => {
+    toast.info("Cart loaded");
+    dispatch(fetchCart());
+  }, [dispatch]);
+  if (loading) {
+    return <p className="text-center">Loading your cart...</p>;
+  }
   return (
     <>
       <Header />

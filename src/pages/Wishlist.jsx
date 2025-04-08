@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../redux/wishlistSlice";
 import { addItemToCart, updateCartQuantity } from "../redux/cartSlice";
 import Header from "../components/Header";
+import { toast } from "react-toastify";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.items);
   const cart = useSelector((state) => state.cart.cartItems);
+  useEffect(() => {
+    toast("Wishlist loaded successfully");
+  }, []);
 
   return (
     <>
@@ -31,7 +35,10 @@ const Wishlist = () => {
                     <p>Price: {product.price}</p>
                     <button
                       className="btn btn-danger me-2"
-                      onClick={() => dispatch(removeFromWishlist(product._id))}
+                      onClick={() => {
+                        dispatch(removeFromWishlist(product._id));
+                        toast.warn(`${product.name} removed from wishlist`);
+                      }}
                     >
                       Remove from Wishlist
                     </button>
@@ -48,8 +55,12 @@ const Wishlist = () => {
                               quantity: cartItem.quantity + 1,
                             })
                           );
+                          toast.info(
+                            `${product.name} quantity increased in cart`
+                          );
                         } else {
                           dispatch(addItemToCart({ ...product, quantity: 1 }));
+                          toast.success(`${product.name} added to cart`);
                         }
                       }}
                     >

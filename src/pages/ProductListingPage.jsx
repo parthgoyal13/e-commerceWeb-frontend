@@ -25,7 +25,7 @@ import {
 const ProductListingPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { category } = useParams();
+  const { category, searchTerm } = useParams();
 
   const wishlist = useSelector((state) => state.wishlist.items);
   const cart = useSelector((state) => state.cart.cartItems);
@@ -34,7 +34,17 @@ const ProductListingPage = () => {
     useSelector((state) => state.products);
 
   useEffect(() => {
-    if (category === "Home") {
+    if (searchTerm) {
+      dispatch(
+        fetchProducts({
+          search: searchTerm,
+          price,
+          rating,
+          subcategory,
+          sort: sortByPrice,
+        })
+      );
+    } else if (category === "Home") {
       dispatch(
         fetchProducts({ price, rating, subcategory, sort: sortByPrice })
       );
@@ -49,7 +59,7 @@ const ProductListingPage = () => {
         })
       );
     }
-  }, [dispatch, category, price, rating, subcategory, sortByPrice]);
+  }, [dispatch, category, searchTerm, price, rating, subcategory, sortByPrice]);
 
   useEffect(() => {
     dispatch(fetchCart());
