@@ -6,14 +6,17 @@ const url = "https://e-commerce-web-backend-alpha.vercel.app/products";
 // Fetch products with filtering & sorting
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async ({ category, subcategory, price, rating, sort } = {}) => {
+  async ({ category, subcategory, price, rating, sort, search } = {}) => {
     const queryParams = new URLSearchParams();
 
     if (category) queryParams.append("category", category);
-    if (subcategory) queryParams.append("subcategory", subcategory);
+    if (subcategory && subcategory.length > 0) {
+      subcategory.forEach((sub) => queryParams.append("subcategory", sub));
+    }
     if (price) queryParams.append("price", price);
     if (rating) queryParams.append("rating", rating);
     if (sort) queryParams.append("sort", sort);
+    if (search) queryParams.append("search", search);
 
     const response = await axios.get(`${url}?${queryParams.toString()}`);
     return response.data;
