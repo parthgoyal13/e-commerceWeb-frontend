@@ -21,6 +21,7 @@ import {
   removeItemToCart,
   updateCartQuantity,
 } from "../redux/cartSlice";
+import { toast } from "react-toastify";
 
 const ProductListingPage = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const ProductListingPage = () => {
 
   const handleAddToCart = (product) => {
     dispatch(addItemToCart({ ...product }));
+    toast.success(`${product.name} added to cart!`);
   };
 
   const isInCart = (name) => {
@@ -221,24 +223,31 @@ const ProductListingPage = () => {
                       )}
 
                       <button
-                        className={
-                          wishlist.some((item) => item._id === product._id)
-                            ? "btn btn-danger"
-                            : "btn btn-warning"
-                        }
+                        className="btn btn-light position-absolute top-0 end-0 m-2"
                         onClick={() => {
                           if (
                             wishlist.some((item) => item._id === product._id)
                           ) {
                             dispatch(removeFromWishlist(product._id));
+                            toast.info(
+                              `${product.name} removed from wishlist.`
+                            );
                           } else {
                             dispatch(addToWishlist(product));
+                            toast.success(`${product.name} added to wishlist!`);
                           }
                         }}
                       >
-                        {wishlist.some((item) => item._id === product._id)
+                        <i
+                          className={
+                            wishlist.some((item) => item._id === product._id)
+                              ? "bi bi-heart-fill text-danger"
+                              : "bi bi-heart"
+                          }
+                        ></i>
+                        {/* {wishlist.some((item) => item._id === product._id)
                           ? "Remove from Wishlist"
-                          : "Add to Wishlist"}
+                          : "Add to Wishlist"} */}
                       </button>
                     </div>
                   </div>

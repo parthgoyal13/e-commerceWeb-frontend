@@ -27,23 +27,24 @@ const Wishlist = () => {
                 <div className="card">
                   <img
                     src={product.image}
-                    className="card-img-top"
+                    className="card-img-top img-fluid"
                     alt="product"
+                    style={{ height: "200px", objectFit: "cover" }}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{product.name}</h5>
                     <p>Price: {product.price}</p>
                     <button
-                      className="btn btn-danger me-2"
+                      className="btn btn-danger btn-sm me-2"
                       onClick={() => {
                         dispatch(removeFromWishlist(product._id));
                         toast.warn(`${product.name} removed from wishlist`);
                       }}
                     >
-                      Remove from Wishlist
+                      Remove
                     </button>
                     <button
-                      className="btn btn-primary"
+                      className="btn btn-primary btn-sm"
                       onClick={() => {
                         const cartItem = cart.find(
                           (item) => item._id === product._id
@@ -65,7 +66,7 @@ const Wishlist = () => {
                       }}
                     >
                       {cart.find((item) => item._id === product._id)
-                        ? `Increase Quantity (${
+                        ? `Increase Qty (${
                             cart.find((item) => item._id === product._id)
                               .quantity
                           })`
