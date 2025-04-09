@@ -23,7 +23,7 @@ const Checkout = () => {
     }
 
     const orderData = {
-      userId: "66127d19dd41eaf6c32d7b62", // Replace with actual user ID
+      userId: "66127d19dd41eaf6c32d7b62",
       products: cartItems.map((item) => ({
         productId: item._id,
         name: item.name,

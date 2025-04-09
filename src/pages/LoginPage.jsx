@@ -1,4 +1,3 @@
-// LoginPage.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/userAuthSlice";
@@ -14,7 +13,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // ✅ Only redirect to profile after a successful login (not just if user exists)
   useEffect(() => {
     if (user && !error && success) {
       const timer = setTimeout(() => {
@@ -26,11 +24,11 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setSuccess(false); // reset
+    setSuccess(false);
     const result = await dispatch(loginUser({ email, password }));
 
     if (loginUser.fulfilled.match(result)) {
-      setSuccess(true); // ✅ set success only if login succeeded
+      setSuccess(true);
     }
   };
 

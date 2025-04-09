@@ -2,11 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
-import {
-  addToWishlist,
-  removeFromWishlist,
-  fetchWishlist,
-} from "../redux/wishlistSlice";
+import { addToWishlist, removeFromWishlist } from "../redux/wishlistSlice";
 import {
   fetchProducts,
   setPrice,
@@ -15,12 +11,7 @@ import {
   setSortByPrice,
   clearFilters,
 } from "../redux/productsSlice";
-import {
-  fetchCart,
-  addItemToCart,
-  removeItemToCart,
-  updateCartQuantity,
-} from "../redux/cartSlice";
+import { fetchCart, addItemToCart } from "../redux/cartSlice";
 import { toast } from "react-toastify";
 
 const ProductListingPage = () => {
@@ -81,6 +72,7 @@ const ProductListingPage = () => {
   if (error) {
     return <h2>Error: {error}</h2>;
   }
+
   return (
     <>
       <Header />
@@ -88,104 +80,118 @@ const ProductListingPage = () => {
         <h2 className="text-center mb-4">Products in {category}</h2>
 
         <div className="row">
-          <div className="col-md-3">
-            <div className="p-3 border bg-light position-relative">
-              <h3>Filters</h3>
-              <Link
-                className="d-block text-end"
-                onClick={() => dispatch(clearFilters())}
-              >
-                Clear filter
-              </Link>
-              <section className="mb-3 position-relative">
-                <h5>Price</h5>
-                <div className="d-flex justify-content-between position-relative w-100">
-                  <span className="position-absolute start-0 translate-middle-x text-muted fw-light">
-                    50
-                  </span>
-                  <span className="position-absolute start-50 translate-middle-x text-muted fw-light">
-                    150
-                  </span>
-                  <span className="position-absolute start-100 translate-middle-x text-muted fw-light">
-                    200
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  className="form-range w-100 mt-3"
-                  min="50"
-                  max="200"
-                  step="10"
-                  value={price}
-                  onChange={(e) => dispatch(setPrice(Number(e.target.value)))}
-                />
-                <p>Selected Price: {price}</p>
-              </section>
+          <div className="col-12 d-md-none">
+            <button
+              className="btn btn-outline-secondary w-100 mb-3"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#filterCollapse"
+              aria-expanded="false"
+              aria-controls="filterCollapse"
+            >
+              Filters
+            </button>
+          </div>
 
-              <section className="mb-3">
-                <h5>Sub Category</h5>
-                {["Summer", "Winter", "Formal"].map((sub) => (
-                  <div key={sub}>
-                    <input
-                      type="checkbox"
-                      value={sub}
-                      checked={subcategory.includes(sub)}
-                      onChange={(e) =>
-                        dispatch(
-                          setSubcategory({
-                            subcategory: sub,
-                            checked: e.target.checked,
-                          })
-                        )
-                      }
-                    />{" "}
-                    {sub}
+          <div className="col-md-3" style={{ maxWidth: "250px" }}>
+            <div id="filterCollapse" className="collapse d-md-block">
+              <div className="p-3 border bg-light position-relative">
+                <h3>Filters</h3>
+                <Link
+                  className="d-block text-end"
+                  onClick={() => dispatch(clearFilters())}
+                >
+                  Clear filter
+                </Link>
+
+                <section className="mb-3 position-relative">
+                  <h5>Price</h5>
+                  <div className="d-flex justify-content-between position-relative w-100">
+                    <span className="position-absolute start-0 translate-middle-x text-muted fw-light">
+                      50
+                    </span>
+                    <span className="position-absolute start-50 translate-middle-x text-muted fw-light">
+                      150
+                    </span>
+                    <span className="position-absolute start-100 translate-middle-x text-muted fw-light">
+                      200
+                    </span>
                   </div>
-                ))}
-              </section>
+                  <input
+                    type="range"
+                    className="form-range w-100 mt-3"
+                    min="50"
+                    max="200"
+                    step="10"
+                    value={price}
+                    onChange={(e) => dispatch(setPrice(Number(e.target.value)))}
+                  />
+                  <p>Selected Price: {price}</p>
+                </section>
 
-              <section className="mb-3">
-                <h5>Rating</h5>
-                {[5, 4, 3, 2].map((rate) => (
-                  <div key={rate}>
-                    <input
-                      type="radio"
-                      name="rating"
-                      value={rate}
-                      checked={rating === rate}
-                      onChange={() => dispatch(setRating(rate))}
-                    />{" "}
-                    {"⭐".repeat(rate)}
-                  </div>
-                ))}
-              </section>
+                <section className="mb-3">
+                  <h5>Sub Category</h5>
+                  {["Summer", "Winter", "Formal"].map((sub) => (
+                    <div key={sub}>
+                      <input
+                        type="checkbox"
+                        value={sub}
+                        checked={subcategory.includes(sub)}
+                        onChange={(e) =>
+                          dispatch(
+                            setSubcategory({
+                              subcategory: sub,
+                              checked: e.target.checked,
+                            })
+                          )
+                        }
+                      />{" "}
+                      {sub}
+                    </div>
+                  ))}
+                </section>
 
-              <section className="mb-3">
-                <h5>Sort by Price</h5>
-                <input
-                  type="radio"
-                  name="sortByPrice"
-                  value="lowToHigh"
-                  checked={sortByPrice === "lowToHigh"}
-                  onChange={(e) => dispatch(setSortByPrice(e.target.value))}
-                />{" "}
-                Low to High <br />
-                <input
-                  type="radio"
-                  name="sortByPrice"
-                  value="highToLow"
-                  checked={sortByPrice === "highToLow"}
-                  onChange={(e) => dispatch(setSortByPrice(e.target.value))}
-                />{" "}
-                High to Low
-                <br />
-              </section>
+                <section className="mb-3">
+                  <h5>Rating</h5>
+                  {[5, 4, 3, 2].map((rate) => (
+                    <div key={rate}>
+                      <input
+                        type="radio"
+                        name="rating"
+                        value={rate}
+                        checked={rating === rate}
+                        onChange={() => dispatch(setRating(rate))}
+                      />{" "}
+                      {"⭐".repeat(rate)}
+                    </div>
+                  ))}
+                </section>
+
+                <section className="mb-3">
+                  <h5>Sort by Price</h5>
+                  <input
+                    type="radio"
+                    name="sortByPrice"
+                    value="lowToHigh"
+                    checked={sortByPrice === "lowToHigh"}
+                    onChange={(e) => dispatch(setSortByPrice(e.target.value))}
+                  />{" "}
+                  Low to High <br />
+                  <input
+                    type="radio"
+                    name="sortByPrice"
+                    value="highToLow"
+                    checked={sortByPrice === "highToLow"}
+                    onChange={(e) => dispatch(setSortByPrice(e.target.value))}
+                  />{" "}
+                  High to Low
+                </section>
+              </div>
             </div>
           </div>
 
           <div className="col-md-9">
             <div className="row">
-              {" "}
               {products.map((product) => (
                 <div className="col-md-4 mb-4 flex" key={product._id}>
                   <div className="card h-100">
@@ -245,9 +251,6 @@ const ProductListingPage = () => {
                               : "bi bi-heart"
                           }
                         ></i>
-                        {/* {wishlist.some((item) => item._id === product._id)
-                          ? "Remove from Wishlist"
-                          : "Add to Wishlist"} */}
                       </button>
                     </div>
                   </div>

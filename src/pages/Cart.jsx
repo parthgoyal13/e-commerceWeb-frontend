@@ -112,7 +112,6 @@ const Cart = () => {
               ))}
             </div>
 
-            {/* Right column – price details */}
             <div className="col-md-4">
               <div className="border rounded p-4 shadow">
                 <h5 className="fw-bold mb-3">PRICE DETAILS</h5>

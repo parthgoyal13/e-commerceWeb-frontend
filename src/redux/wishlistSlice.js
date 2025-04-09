@@ -18,7 +18,6 @@ export const addToWishlist = createAsyncThunk(
       products: [{ productId: product._id }],
     });
 
-    // Return the original product to store in Redux
     return product;
   }
 );

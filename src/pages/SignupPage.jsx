@@ -1,4 +1,3 @@
-// SignupPage.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../redux/userAuthSlice";
@@ -9,7 +8,7 @@ const SignupPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error } = useSelector((state) => state.auth); // ✅ removed user
+  const { loading, error } = useSelector((state) => state.auth);
   const [success, setSuccess] = useState(false);
 
   const [form, setForm] = useState({
@@ -35,7 +34,6 @@ const SignupPage = () => {
     }
   };
 
-  // ✅ After success, redirect to login after 3s
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {

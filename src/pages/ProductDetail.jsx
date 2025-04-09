@@ -2,11 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductById } from "../redux/productsSlice";
-import {
-  addToWishlist,
-  removeFromWishlist,
-  fetchWishlist,
-} from "../redux/wishlistSlice";
+import { addToWishlist, removeFromWishlist } from "../redux/wishlistSlice";
 import { addItemToCart, updateCartQuantity } from "../redux/cartSlice";
 import Header from "../components/Header";
 

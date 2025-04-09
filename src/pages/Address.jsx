@@ -70,7 +70,6 @@ const Address = () => {
       <div className="container">
         <h2 className="mt-4">Manage Address</h2>
 
-        {/* Address Form */}
         <div className="card p-3 mb-4">
           <h4>{editId ? "Edit Address" : "Add New Address"}</h4>
           <div className="row">
@@ -91,7 +90,6 @@ const Address = () => {
           </button>
         </div>
 
-        {/* Address List */}
         <div className="card p-3">
           <h4>Saved Addresses</h4>
           <ul className="list-group">
@@ -126,7 +124,6 @@ const Address = () => {
           </ul>
         </div>
 
-        {/* Selected Address Preview */}
         {selectedAddress && (
           <p className="mt-3 text-success">
             Selected Address: {selectedAddress.name}, {selectedAddress.street},{" "}

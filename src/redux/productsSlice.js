@@ -3,7 +3,6 @@ import axios from "axios";
 
 const url = "https://e-commerce-web-backend-alpha.vercel.app/products";
 
-// Fetch products with filtering & sorting
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async ({ category, subcategory, price, rating, sort, search } = {}) => {
@@ -23,7 +22,6 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-// Fetch a single product by ID
 export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
   async (productId) => {
@@ -73,7 +71,6 @@ const productsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Handle fetching all products
     builder.addCase(fetchProducts.pending, (state) => {
       state.status = "loading";
     });
@@ -86,7 +83,6 @@ const productsSlice = createSlice({
       state.error = action.error.message;
     });
 
-    // Handle fetching a single product
     builder.addCase(fetchProductById.pending, (state) => {
       state.productStatus = "loading";
     });

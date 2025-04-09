@@ -63,7 +63,6 @@ const userAuthSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Login
     builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -77,11 +76,11 @@ const userAuthSlice = createSlice({
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
-      state.user = null; // clear user
-      state.token = null; // clear token
+      state.user = null;
+      state.token = null;
       state.error = action.payload || "Login failed";
     });
-    // Signup
+
     builder.addCase(signupUser.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -95,7 +94,6 @@ const userAuthSlice = createSlice({
       state.error = action.error.message;
     });
 
-    // Profile
     builder.addCase(fetchUserProfile.pending, (state) => {
       state.loading = true;
       state.error = null;
