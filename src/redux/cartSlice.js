@@ -30,6 +30,15 @@ export const updateCartQuantity = createAsyncThunk(
   }
 );
 
+export const clearCart = createAsyncThunk("cart/clear", async (_, thunkAPI) => {
+  try {
+    await axios.delete(`https://e-commerce-web-backend-alpha.vercel.app/cart`);
+    return [];
+  } catch (error) {
+    return thunkAPI.rejectWithValue("Failed to clear cart");
+  }
+});
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -37,11 +46,7 @@ const cartSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {
-    clearCart: (state) => {
-      state.cartItems = [];
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchCart.pending, (state) => {
       state.loading = true;
@@ -84,9 +89,10 @@ const cartSlice = createSlice({
         state.cartItems[index].quantity = updatedItem.quantity;
       }
     });
+    builder.addCase(clearCart.fulfilled, (state, action) => {
+      state.cartItems = [];
+    });
   },
 });
-
-export const { clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

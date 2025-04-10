@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addItemToCart,
-  removeItemToCart, // ✅ Typo fixed: was `removeItemToCart`, not `removeItemToCart`
+  removeItemToCart,
   fetchCart,
   updateCartQuantity,
 } from "../redux/cartSlice";
@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cartItems: cart, loading } = useSelector((state) => state.cart); // ✅ Combined and renamed
+  const { cartItems: cart, loading } = useSelector((state) => state.cart);
 
   const handleIncrease = (product) => {
     const updatedProduct = { ...product, quantity: 1 };
@@ -64,7 +64,6 @@ const Cart = () => {
         ) : (
           <div className="row justify-content-between">
             <div className="col-md-7">
-              {/* ✅ Show loading only for product list */}
               {loading ? (
                 <p className="text-center">Loading your cart items...</p>
               ) : (
@@ -143,9 +142,9 @@ const Cart = () => {
                 <Link to="/checkout">
                   <button
                     className="btn btn-primary w-100"
-                    disabled={loading || cart.length === 0} // ✅ Prevent ordering if loading
+                    disabled={loading || cart.length === 0}
                   >
-                    PLACE ORDER
+                    PROCEED TO CHECKOUT
                   </button>
                 </Link>
               </div>
