@@ -36,9 +36,6 @@ function UserProfile() {
           <p>
             <strong>Phone:</strong> {user.phone}
           </p>
-          <p>
-            <strong>Address:</strong> {user.address}
-          </p>
         </>
       )}
     </div>
