@@ -6,6 +6,7 @@ import {
   fetchCart,
   updateCartQuantity,
 } from "../redux/cartSlice";
+import { addToWishlist } from "../redux/wishlistSlice";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -35,6 +36,12 @@ const Cart = () => {
   const handleRemove = (product) => {
     dispatch(removeItemToCart(product._id));
     toast.error(`${product.name} removed from cart`);
+  };
+
+  const handleMoveToWishlist = (product) => {
+    dispatch(addToWishlist(product));
+    dispatch(removeItemToCart(product._id));
+    toast.success(`${product.name} moved to wishlist`);
   };
 
   const totalPrice = cart.reduce(
@@ -103,7 +110,10 @@ const Cart = () => {
                       >
                         Remove From Cart
                       </button>
-                      <button className="btn btn-outline-secondary btn-sm">
+                      <button
+                        className="btn btn-outline-secondary btn-sm"
+                        onClick={() => handleMoveToWishlist(product)}
+                      >
                         Move to Wishlist
                       </button>
                     </div>

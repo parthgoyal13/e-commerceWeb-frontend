@@ -66,13 +66,6 @@ const ProductListingPage = () => {
     return cart.some((item) => item.name === name);
   };
 
-  if (status === "loading") {
-    return <h2>Loading products...</h2>;
-  }
-  if (error) {
-    return <h2>Error: {error}</h2>;
-  }
-
   return (
     <>
       <Header />
@@ -192,70 +185,80 @@ const ProductListingPage = () => {
 
           <div className="col-md-9">
             <div className="row">
-              {products.map((product) => (
-                <div className="col-md-4 mb-4 flex" key={product._id}>
-                  <div className="card h-100">
-                    <Link
-                      to={`/product/${product._id}`}
-                      className="text-decoration-none text-dark"
-                    >
-                      <img
-                        src={product.image}
-                        className="card-img-top img-fluid"
-                        alt="productImg"
-                        style={{ height: "200px", objectFit: "cover" }}
-                      />
-                    </Link>
-
-                    <div className="card-body d-flex flex-column">
-                      <h5 className="card-title">{product.name}</h5>
-                      <p>Price: {product.price}</p>
-                      <p>Rating: {product.rating} ⭐</p>
-
-                      {isInCart(product.name) ? (
-                        <button
-                          className="btn btn-success me-2"
-                          onClick={() => navigate("/cart")}
-                        >
-                          Go to Cart
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-primary me-2"
-                          onClick={() => handleAddToCart(product)}
-                        >
-                          Add to Cart
-                        </button>
-                      )}
-
-                      <button
-                        className="btn btn-light position-absolute top-0 end-0 m-2"
-                        onClick={() => {
-                          if (
-                            wishlist.some((item) => item._id === product._id)
-                          ) {
-                            dispatch(removeFromWishlist(product._id));
-                            toast.info(
-                              `${product.name} removed from wishlist.`
-                            );
-                          } else {
-                            dispatch(addToWishlist(product));
-                            toast.success(`${product.name} added to wishlist!`);
-                          }
-                        }}
+              {status === "loading" ? (
+                <h4 className="text-center">Loading products...</h4>
+              ) : error ? (
+                <h4 className="text-danger text-center">Error: {error}</h4>
+              ) : products.length === 0 ? (
+                <h4 className="text-center">No products found.</h4>
+              ) : (
+                products.map((product) => (
+                  <div className="col-md-4 mb-4" key={product._id}>
+                    <div className="card h-100 position-relative">
+                      <Link
+                        to={`/product/${product._id}`}
+                        className="text-decoration-none text-dark"
                       >
-                        <i
-                          className={
-                            wishlist.some((item) => item._id === product._id)
-                              ? "bi bi-heart-fill text-danger"
-                              : "bi bi-heart"
-                          }
-                        ></i>
-                      </button>
+                        <img
+                          src={product.image}
+                          className="card-img-top img-fluid"
+                          alt="productImg"
+                          style={{ height: "200px", objectFit: "cover" }}
+                        />
+                      </Link>
+
+                      <div className="card-body d-flex flex-column">
+                        <h5 className="card-title">{product.name}</h5>
+                        <p>Price: {product.price}</p>
+                        <p>Rating: {product.rating} ⭐</p>
+
+                        {isInCart(product.name) ? (
+                          <button
+                            className="btn btn-success me-2"
+                            onClick={() => navigate("/cart")}
+                          >
+                            Go to Cart
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-primary me-2"
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            Add to Cart
+                          </button>
+                        )}
+
+                        <button
+                          className="btn btn-light position-absolute top-0 end-0 m-2"
+                          onClick={() => {
+                            if (
+                              wishlist.some((item) => item._id === product._id)
+                            ) {
+                              dispatch(removeFromWishlist(product._id));
+                              toast.info(
+                                `${product.name} removed from wishlist.`
+                              );
+                            } else {
+                              dispatch(addToWishlist(product));
+                              toast.success(
+                                `${product.name} added to wishlist!`
+                              );
+                            }
+                          }}
+                        >
+                          <i
+                            className={
+                              wishlist.some((item) => item._id === product._id)
+                                ? "bi bi-heart-fill text-danger"
+                                : "bi bi-heart"
+                            }
+                          ></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </div>
