@@ -86,7 +86,10 @@ const ProductListingPage = () => {
             </button>
           </div>
 
-          <div className="col-md-3" style={{ maxWidth: "250px" }}>
+          <div
+            className="col-md-3"
+            style={{ maxWidth: "250px", background: "white" }}
+          >
             <div id="filterCollapse" className="collapse d-md-block">
               <div className="p-3 border bg-light position-relative">
                 <h3>Filters</h3>
@@ -183,7 +186,7 @@ const ProductListingPage = () => {
             </div>
           </div>
 
-          <div className="col-md-9">
+          <div className="col-md-9 card px-3 py-3">
             <div className="row">
               {status === "loading" ? (
                 <h4 className="text-center">Loading products...</h4>
