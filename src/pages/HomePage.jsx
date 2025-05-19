@@ -25,17 +25,19 @@ const HomePage = () => {
           ))}
         </div>
 
-        <div className="row">
-          <img
-            src="https://images-eu.ssl-images-amazon.com/images/G/31/img19/OOC/Gateway/2025/PC_CC_758X608._SY608_CB548056687_.jpg"
-            alt=""
-            className="rounded mb-3 center"
-            style={{
-              width: "350px",
-              height: "250px",
-              objectFit: "cover",
-            }}
-          />
+        <div className="row justify-content-center">
+          <div className="col-auto">
+            <img
+              src="https://images-eu.ssl-images-amazon.com/images/G/31/img19/OOC/Gateway/2025/PC_CC_758X608._SY608_CB548056687_.jpg"
+              alt=""
+              className="rounded mb-3"
+              style={{
+                width: "350px",
+                height: "250px",
+                objectFit: "cover",
+              }}
+            />
+          </div>
         </div>
 
         <div className="row">
