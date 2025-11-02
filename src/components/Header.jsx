@@ -2,19 +2,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../redux/productsSlice";
+import { logout } from "../redux/userAuthSlice";
 import NGWLogo from "../assets/NGW_Next_Gen_Wear_logo.svg";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Header = () => {
   const [searchInput, setSearchInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showLoginDropdown, setShowLoginDropdown] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
+  const loginDropdownRef = useRef(null);
+  const loginButtonRef = useRef(null);
 
   const { products } = useSelector((state) => state.products);
-  const searchResults = products.slice(0, 8); // Limit to 8 results
+  const { user, token } = useSelector((state) => state.auth);
+  const searchResults = products.slice(0, 8);
+  const isLoggedIn = !!user && !!token; 
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -25,6 +31,14 @@ const Header = () => {
         !inputRef.current.contains(event.target)
       ) {
         setShowDropdown(false);
+      }
+      if (
+        loginDropdownRef.current &&
+        !loginDropdownRef.current.contains(event.target) &&
+        loginButtonRef.current &&
+        !loginButtonRef.current.contains(event.target)
+      ) {
+        setShowLoginDropdown(false);
       }
     };
 
@@ -142,17 +156,154 @@ const Header = () => {
                   )}
                 </div>
               </div>
-              <Link className="nav-link" to="/login">
-                Login
-              </Link>
-              <Link className="nav-link" to="/signup">
-                Sign
-              </Link>
-              <Link className="nav-link" to="/wishlist">
-                Wishlist
-              </Link>
-              <Link className="nav-link" to="/cart">
-                Cart
+              <div className="position-relative nav-link">
+                <button
+                  ref={loginButtonRef}
+                  className="d-flex align-items-center gap-2 text-dark text-decoration-none p-0 border-0 bg-transparent w-100"
+                  onClick={() => setShowLoginDropdown(!showLoginDropdown)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <i className="bi bi-person"></i>
+                  <span>{isLoggedIn ? (user?.firstName || user?.email || "Account") : "Login"}</span>
+                  <i className={`bi ${showLoginDropdown ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+                </button>
+                {showLoginDropdown && (
+                  <div
+                    ref={loginDropdownRef}
+                    className="position-absolute start-0 mt-2 bg-white border rounded shadow-sm"
+                    style={{ minWidth: "250px", zIndex: 1000 }}
+                  >
+                    {!isLoggedIn ? (
+                      <>
+                        <div className="p-3 d-flex justify-content-between align-items-center">
+                          <span>New customer?</span>
+                          <Link
+                            to="/signup"
+                            className="text-primary text-decoration-underline"
+                            onClick={() => setShowLoginDropdown(false)}
+                          >
+                            Sign Up
+                          </Link>
+                        </div>
+                        <hr className="my-0" />
+                        <Link
+                          to="/login"
+                          className="d-flex align-items-center gap-3 p-3 text-decoration-none text-dark border-bottom"
+                          onClick={() => setShowLoginDropdown(false)}
+                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                        >
+                          <i className="bi bi-box-arrow-in-right"></i>
+                          <span>Login</span>
+                        </Link>
+                        <Link
+                          to="/profile"
+                          className="d-flex align-items-center gap-3 p-3 text-decoration-none text-dark border-bottom"
+                          onClick={() => {
+                            setShowLoginDropdown(false);
+                            if (!isLoggedIn) {
+                              navigate("/login");
+                            }
+                          }}
+                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                        >
+                          <i className="bi bi-person"></i>
+                          <span>My Profile</span>
+                        </Link>
+                        <Link
+                          to="/order"
+                          className="d-flex align-items-center gap-3 p-3 text-decoration-none text-dark border-bottom"
+                          onClick={() => {
+                            setShowLoginDropdown(false);
+                            if (!isLoggedIn) {
+                              navigate("/login");
+                            }
+                          }}
+                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                        >
+                          <i className="bi bi-box"></i>
+                          <span>Orders</span>
+                        </Link>
+                        <Link
+                          to="/wishlist"
+                          className="d-flex align-items-center gap-3 p-3 text-decoration-none text-dark"
+                          onClick={() => {
+                            setShowLoginDropdown(false);
+                            if (!isLoggedIn) {
+                              navigate("/login");
+                            }
+                          }}
+                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                        >
+                          <i className="bi bi-heart"></i>
+                          <span>Wishlist</span>
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          to="/profile"
+                          className="d-flex align-items-center gap-3 p-3 text-decoration-none text-dark border-bottom"
+                          onClick={() => setShowLoginDropdown(false)}
+                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                        >
+                          <i className="bi bi-person"></i>
+                          <span>My Profile</span>
+                        </Link>
+                        <Link
+                          to="/order"
+                          className="d-flex align-items-center gap-3 p-3 text-decoration-none text-dark border-bottom"
+                          onClick={() => setShowLoginDropdown(false)}
+                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                        >
+                          <i className="bi bi-box"></i>
+                          <span>Orders</span>
+                        </Link>
+                        <Link
+                          to="/wishlist"
+                          className="d-flex align-items-center gap-3 p-3 text-decoration-none text-dark border-bottom"
+                          onClick={() => setShowLoginDropdown(false)}
+                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                        >
+                          <i className="bi bi-heart"></i>
+                          <span>Wishlist</span>
+                        </Link>
+                        <button
+                          className="d-flex align-items-center gap-3 p-3 w-100 text-start border-0 bg-transparent text-dark"
+                          onClick={() => {
+                            dispatch(logout());
+                            setShowLoginDropdown(false);
+                            navigate("/");
+                          }}
+                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                        >
+                          <i className="bi bi-box-arrow-right"></i>
+                          <span>Logout</span>
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+           
+              <Link className="nav-link d-flex align-items-center gap-1" to="/cart">
+                <i className="bi bi-cart"></i>
+                <span>Cart</span>
               </Link>
             </div>
           </div>
