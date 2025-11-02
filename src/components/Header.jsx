@@ -15,10 +15,10 @@ const Header = () => {
   };
   return (
     <header>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary ">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            <img src={NGWLogo} alt="NGW - Next Gen Wear" height="40" />
+            <img src={NGWLogo} alt="NGW - Next Gen Wear" height="90"/>
           </Link>
           <button
             className="navbar-toggler"
