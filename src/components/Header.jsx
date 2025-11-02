@@ -88,10 +88,61 @@ const Header = () => {
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+        <div className="container-fluid d-flex align-items-center">
+          <Link className="navbar-brand ms-5" to="/">
             <img src={NGWLogo} alt="NGW - Next Gen Wear" height="90" />
           </Link>
+          <div className="flex-grow-1 d-flex justify-content-center position-relative mx-3">
+            <div className="position-relative w-100" style={{ maxWidth: "600px" }}>
+              <i 
+                className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary small"
+                style={{ pointerEvents: "none", zIndex: 1 }}
+              ></i>
+              <input
+                ref={inputRef}
+                className="form-control ps-5"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={searchInput}
+                onChange={handleSearchChange}
+                onFocus={handleInputFocus}
+                onKeyDown={handleKeyDown}
+              />
+              {showDropdown && searchResults.length > 0 && (
+                <div 
+                  ref={dropdownRef} 
+                  className="position-absolute start-0 end-0 w-100 bg-white border rounded shadow-sm overflow-auto mt-1"
+                  style={{ top: "100%", maxHeight: "400px", zIndex: 1000 }}
+                >
+                  {searchResults.map((product, index) => (
+                    <div
+                      key={product._id}
+                      className={`d-flex align-items-center p-3 border-bottom ${index === searchResults.length - 1 ? 'border-bottom-0' : ''}`}
+                      onClick={() => handleResultClick(product)}
+                      style={{ cursor: "pointer", transition: "background-color 0.2s" }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="me-3 rounded"
+                        style={{ width: "60px", height: "60px", objectFit: "cover" }}
+                      />
+                      <div className="flex-grow-1">
+                        <div className="fw-bold text-dark mb-1 small">{product.name}</div>
+                        <div className="small" style={{ color: "#4285f4" }}>
+                          in {product.category}
+                          {product.subcategory && ` > ${product.subcategory}`}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -104,59 +155,8 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-              <div className="container-fluid position-relative mb-2 mb-lg-0">
-                <div className="position-relative w-100">
-                  <i 
-                    className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary small"
-                    style={{ pointerEvents: "none", zIndex: 1 }}
-                  ></i>
-                  <input
-                    ref={inputRef}
-                    className="form-control ps-5"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                    value={searchInput}
-                    onChange={handleSearchChange}
-                    onFocus={handleInputFocus}
-                    onKeyDown={handleKeyDown}
-                  />
-                  {showDropdown && searchResults.length > 0 && (
-                    <div 
-                      ref={dropdownRef} 
-                      className="position-absolute start-0 end-0 w-100 bg-white border rounded shadow-sm overflow-auto mt-1"
-                      style={{ top: "100%", maxHeight: "400px", zIndex: 1000 }}
-                    >
-                      {searchResults.map((product, index) => (
-                        <div
-                          key={product._id}
-                          className={`d-flex align-items-center p-3 border-bottom ${index === searchResults.length - 1 ? 'border-bottom-0' : ''}`}
-                          onClick={() => handleResultClick(product)}
-                          style={{ cursor: "pointer", transition: "background-color 0.2s" }}
-                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#f8f9fa"}
-                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "transparent"}
-                        >
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="me-3 rounded"
-                            style={{ width: "60px", height: "60px", objectFit: "cover" }}
-                          />
-                          <div className="flex-grow-1">
-                            <div className="fw-bold text-dark mb-1 small">{product.name}</div>
-                            <div className="small" style={{ color: "#4285f4" }}>
-                              in {product.category}
-                              {product.subcategory && ` > ${product.subcategory}`}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="position-relative nav-link">
+            <div className="navbar-nav d-flex align-items-center ms-3">
+              <div className="position-relative nav-link me-3">
                 <button
                   ref={loginButtonRef}
                   className="d-flex align-items-center gap-2 text-dark text-decoration-none p-0 border-0 bg-transparent w-100"
@@ -300,8 +300,7 @@ const Header = () => {
                   </div>
                 )}
               </div>
-           
-              <Link className="nav-link d-flex align-items-center gap-1" to="/cart">
+              <Link className="nav-link d-flex align-items-center gap-1 me-3" to="/cart">
                 <i className="bi bi-cart"></i>
                 <span>Cart</span>
               </Link>
