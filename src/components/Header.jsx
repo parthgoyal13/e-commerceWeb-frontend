@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import NGWLogo from "../assets/NGW_Next_Gen_Wear_logo.svg";
 
 const Header = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -17,7 +18,7 @@ const Header = () => {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            MyShoppingSite
+            <img src={NGWLogo} alt="NGW - Next Gen Wear" height="40" />
           </Link>
           <button
             className="navbar-toggler"
