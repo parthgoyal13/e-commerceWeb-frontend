@@ -32,35 +32,86 @@ const LoginPage = () => {
     }
   };
 
+  const handleClose = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <Header />
-      <div className="container mt-5">
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-          <input
-            className="form-control mb-2"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            className="form-control mb-2"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="btn btn-primary" type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
-          {error && <div className="alert alert-danger mt-2">{error}</div>}
-          {success && (
-            <div className="alert alert-success mt-2">Login successful!</div>
-          )}
-        </form>
+      <div
+        className="modal fade show"
+        style={{ display: "block" }}
+        tabIndex="-1"
+        role="dialog"
+        onClick={handleClose}
+      >
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-header">
+              <div className="flex-grow-1">
+                <h5 className="modal-title">Login</h5>
+                <span className="d-block">Get access to your Orders, Wishlist and Recommendations</span>
+              </div>
+              <button
+                type="button"
+                className="btn-close"
+                aria-label="Close"
+                onClick={handleClose}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleLogin}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    className="form-control"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <input
+                    id="password"
+                    className="form-control"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                {error && <div className="alert alert-danger">{error}</div>}
+                {success && (
+                  <div className="alert alert-success">Login successful!</div>
+                )}
+                <div className="d-grid">
+                  <button
+                    className="btn btn-primary"
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? "Logging in..." : "Login"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
+      <div className="modal-backdrop fade show" onClick={handleClose}></div>
     </>
   );
 };
