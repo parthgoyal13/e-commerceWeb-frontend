@@ -179,7 +179,7 @@ const Header = () => {
                           <span>New customer?</span>
                           <Link
                             to="/signup"
-                            className="text-primary text-decoration-underline"
+                            className="text-primary text-decoration-none border border-primary rounded px-3 py-1"
                             onClick={() => setShowLoginDropdown(false)}
                           >
                             Sign Up
