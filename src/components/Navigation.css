@@ -7,7 +7,7 @@
   margin-bottom: 0;
   padding: 10px 0;
   overflow: visible;
-  background-color: #075985; /* sky-800 */
+  background-color: #ffffff; /* white */
 }
 
 .navigation .container-fluid {
@@ -38,7 +38,7 @@
 
 .navigation .navbar-nav > li > a,
 .navigation .navbar-nav > li > .nav-link {
-  color: #ffffff;
+  color: #333333;
   font-size: 14px;
   padding: 20px 15px;
   text-transform: uppercase;
@@ -57,13 +57,13 @@
 .navigation .navbar-nav > li > .nav-link:active,
 .navigation .navbar-nav > li > .nav-link:focus {
   background: none;
-  color: #e0f2fe;
+  color: #075985;
   border: 1px solid transparent;
 }
 
 .navigation .navbar-nav > li.active > a,
 .navigation .navbar-nav > li.active > .nav-link {
-  color: #e0f2fe;
+  color: #075985;
 }
 
 .navigation .navbar-nav > li > a.dropdown-toggle {

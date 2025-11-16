@@ -87,11 +87,12 @@ const Header = () => {
   };
 
   return (
-    <header style={{ backgroundColor: "#075985" }}>
-      <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#075985" }}>
+    <>
+      <header style={{ backgroundColor: "#0c4a6e" }}>
+        <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#0c4a6e", paddingTop: "0.5rem", paddingBottom: "0.5rem", height: "80px" }}>
         <div className="container-fluid d-flex align-items-center">
           <Link className="navbar-brand ms-5" to="/">
-            <img src={NGWLogo} alt="NGW - Next Gen Wear" height="90" />
+            <img src={NGWLogo} alt="NGW - Next Gen Wear" height="75" style={{ filter: "brightness(0) invert(1)" }} />
           </Link>
           <div className="flex-grow-1 d-flex justify-content-center position-relative mx-3">
             <div className="position-relative w-100" style={{ maxWidth: "600px" }}>
@@ -310,8 +311,9 @@ const Header = () => {
           </div>
         </div>
       </nav>
-      <Navigation />
     </header>
+    <Navigation />
+    </>
   );
 };
 export default Header;
