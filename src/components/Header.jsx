@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../redux/productsSlice";
 import { logout } from "../redux/userAuthSlice";
 import NGWLogo from "../assets/NGW_Next_Gen_Wear_logo.svg";
+import Navigation from "./Navigation";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const Header = () => {
@@ -308,6 +309,7 @@ const Header = () => {
           </div>
         </div>
       </nav>
+      <Navigation />
     </header>
   );
 };

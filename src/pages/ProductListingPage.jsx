@@ -36,7 +36,7 @@ const ProductListingPage = () => {
           sort: sortByPrice,
         })
       );
-    } else if (category === "Home") {
+    } else if (category === "Home" || category === "Shop") {
       dispatch(
         fetchProducts({ price, rating, subcategory, sort: sortByPrice })
       );
@@ -70,7 +70,9 @@ const ProductListingPage = () => {
     <>
       <Header />
       <div className="container mt-4">
-        <h2 className="text-center mb-4">Products in {category}</h2>
+        <h2 className="text-center mb-4">
+          {category === "Shop" ? "All Products" : `Products in ${category}`}
+        </h2>
 
         <div className="row">
           <div className="col-12 d-md-none">
