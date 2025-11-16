@@ -87,8 +87,8 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <header style={{ backgroundColor: "#075985" }}>
+      <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "#075985" }}>
         <div className="container-fluid d-flex align-items-center">
           <Link className="navbar-brand ms-5" to="/">
             <img src={NGWLogo} alt="NGW - Next Gen Wear" height="90" />
@@ -96,8 +96,8 @@ const Header = () => {
           <div className="flex-grow-1 d-flex justify-content-center position-relative mx-3">
             <div className="position-relative w-100" style={{ maxWidth: "600px" }}>
               <i 
-                className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary small"
-                style={{ pointerEvents: "none", zIndex: 1 }}
+                className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 small"
+                style={{ pointerEvents: "none", zIndex: 1, color: "#ffffff" }}
               ></i>
               <input
                 ref={inputRef}
@@ -152,15 +152,16 @@ const Header = () => {
             aria-controls="navbarNavAltMarkup"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            style={{ borderColor: "rgba(255, 255, 255, 0.5)" }}
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon" style={{ backgroundImage: "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e\")" }}></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav d-flex align-items-center ms-3">
               <div className="position-relative nav-link me-3">
                 <button
                   ref={loginButtonRef}
-                  className="d-flex align-items-center gap-2 text-dark text-decoration-none p-0 border-0 bg-transparent w-100"
+                  className="d-flex align-items-center gap-2 text-white text-decoration-none p-0 border-0 bg-transparent w-100"
                   onClick={() => setShowLoginDropdown(!showLoginDropdown)}
                   style={{ cursor: "pointer" }}
                 >
@@ -301,7 +302,7 @@ const Header = () => {
                   </div>
                 )}
               </div>
-              <Link className="nav-link d-flex align-items-center gap-1 me-3" to="/cart">
+              <Link className="nav-link d-flex align-items-center gap-1 me-3 text-white" to="/cart" style={{ color: "#ffffff" }}>
                 <i className="bi bi-cart"></i>
                 <span>Cart</span>
               </Link>

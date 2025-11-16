@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { addToWishlist, removeFromWishlist } from "../redux/wishlistSlice";
 import {
   fetchProducts,
@@ -268,6 +269,7 @@ const ProductListingPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

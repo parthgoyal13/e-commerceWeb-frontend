@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserProfile } from "../redux/userAuthSlice";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 function UserProfile() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function UserProfile() {
           </p>
         </>
       )}
+      <Footer />
     </div>
   );
 }

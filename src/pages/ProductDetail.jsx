@@ -5,6 +5,7 @@ import { fetchProductById } from "../redux/productsSlice";
 import { addToWishlist, removeFromWishlist } from "../redux/wishlistSlice";
 import { addItemToCart, updateCartQuantity } from "../redux/cartSlice";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -102,6 +103,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

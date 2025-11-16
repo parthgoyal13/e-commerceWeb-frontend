@@ -8,6 +8,7 @@ import {
   editAddress,
 } from "../redux/addressSlice";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 
 const Address = () => {
@@ -132,6 +133,7 @@ const Address = () => {
           </p>
         )}
       </div>
+      <Footer />
     </>
   );
 };

@@ -8,6 +8,7 @@ import {
 } from "../redux/cartSlice";
 import { addToWishlist } from "../redux/wishlistSlice";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -152,6 +153,7 @@ const Cart = () => {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 };

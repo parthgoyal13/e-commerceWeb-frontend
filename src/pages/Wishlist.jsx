@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../redux/wishlistSlice";
 import { addItemToCart, updateCartQuantity } from "../redux/cartSlice";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { toast } from "react-toastify";
 
 const Wishlist = () => {
@@ -79,6 +80,7 @@ const Wishlist = () => {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const OrderPage = () => {
   const { order, loading, error } = useSelector((state) => state.orders || {});
@@ -74,6 +75,7 @@ const OrderPage = () => {
           <p className="text-center mt-4">No order details available.</p>
         )}
       </div>
+      <Footer />
     </>
   );
 };
