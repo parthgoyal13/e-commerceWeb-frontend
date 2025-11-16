@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import HeroSlider from "../components/HeroSlider";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
@@ -7,40 +8,25 @@ const HomePage = () => {
   return (
     <>
       <Header />
+     
       <div className="container">
-        <h1 className="mt-4">Welcome to our Clothing Store</h1>
+        {/* <h1 className="mt-4">Welcome to our Clothing Store</h1> */}
 
         <div className="row">
           {clothingCategories.map((category) => (
-            <div className="col-md-3 col-sm-6 mb-4" key={category}>
+            <div className="col-md-3 mb-4" key={category}>
               <Link
                 to={`/products/${category}`}
                 className="text-decoration-none"
               >
-                <div className="card text-bg-light border-0 rounded text-center p-3">
+                <div className="text-center">
                   <h5 className="card-title fw-bold">{category}</h5>
                 </div>
               </Link>
             </div>
           ))}
         </div>
-
-        <div className="row justify-content-center">
-          <div className="col-auto">
-            <img
-              src="https://images-eu.ssl-images-amazon.com/images/G/31/img19/OOC/Gateway/2025/PC_CC_758X608._SY608_CB548056687_.jpg"
-              alt=""
-              className="rounded mb-3"
-              style={{
-                width: "350px",
-                height: "250px",
-                objectFit: "cover",
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="row">
+        {/* <div className="row">
           <div className="col-md-6">
             <div className="card mb-3" style={{ maxWidth: "540px" }}>
               <div className="row g-0">
@@ -88,8 +74,9 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
+      <HeroSlider />
     </>
   );
 };
