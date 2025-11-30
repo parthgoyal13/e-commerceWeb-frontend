@@ -14,6 +14,7 @@ import {
 } from "../redux/productsSlice";
 import { fetchCart, addItemToCart } from "../redux/cartSlice";
 import { toast } from "react-toastify";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const ProductListingPage = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,8 @@ const ProductListingPage = () => {
     return cart.some((item) => item.name === name);
   };
 
+  const hasActiveFilters = price > 0 || rating > 0 || subcategory.length > 0 || sortByPrice !== "";
+
   return (
     <>
       <Header />
@@ -76,166 +79,263 @@ const ProductListingPage = () => {
         </h2>
 
         <div className="row">
-          <div className="col-12 d-md-none">
+          <div className="col-12 d-md-none mb-3">
             <button
-              className="btn btn-outline-secondary w-100 mb-3"
+              className="btn w-100"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#filterCollapse"
               aria-expanded="false"
               aria-controls="filterCollapse"
+              style={{
+                backgroundColor: "#075985",
+                color: "#ffffff",
+                borderColor: "#075985",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = "#0c4a6e";
+                e.target.style.borderColor = "#0c4a6e";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = "#075985";
+                e.target.style.borderColor = "#075985";
+              }}
             >
+              <i className="bi bi-funnel me-2"></i>
               Filters
             </button>
           </div>
 
-          <div
-            className="col-md-3"
-            style={{ maxWidth: "250px", background: "white" }}
-          >
+          <div className="col-md-3 mb-4 mb-md-0">
             <div id="filterCollapse" className="collapse d-md-block">
-              <div className="p-3 border bg-light position-relative">
-                <h3>Filters</h3>
-                <Link
-                  className="d-block text-end"
-                  onClick={() => dispatch(clearFilters())}
-                >
-                  Clear filter
-                </Link>
-
-                <section className="mb-3 position-relative">
-                  <h5>Price</h5>
-                  <div className="d-flex justify-content-between position-relative w-100">
-                    <span className="position-absolute start-0 translate-middle-x text-muted fw-light">
-                      50
-                    </span>
-                    <span className="position-absolute start-50 translate-middle-x text-muted fw-light">
-                      150
-                    </span>
-                    <span className="position-absolute start-100 translate-middle-x text-muted fw-light">
-                      200
-                    </span>
+              <div className="card shadow-sm">
+                <div className="card-header bg-white border-bottom-0 pb-0">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <h5 className="fw-bold mb-0">
+                      <i className="bi bi-funnel-fill me-2" style={{ color: "#075985" }}></i>
+                      Filters
+                    </h5>
+                    {hasActiveFilters && (
+                      <button
+                        className="btn"
+                        onClick={() => {
+                          dispatch(clearFilters());
+                          toast.info("Filters cleared");
+                        }}
+                        style={{
+                          backgroundColor: "#dc3545",
+                          color: "#ffffff",
+                          borderColor: "#dc3545",
+                          fontSize: "0.7rem",
+                          padding: "0.25rem 0.5rem",
+                          lineHeight: "1.2",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.target.style.backgroundColor = "#c82333";
+                          e.target.style.borderColor = "#c82333";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.backgroundColor = "#dc3545";
+                          e.target.style.borderColor = "#dc3545";
+                        }}
+                      >
+                        <i className="bi bi-x-circle" style={{ fontSize: "0.7rem" }}></i>
+                        <span className="ms-1">Clear</span>
+                      </button>
+                    )}
                   </div>
-                  <input
-                    type="range"
-                    className="form-range w-100 mt-3"
-                    min="50"
-                    max="200"
-                    step="10"
-                    value={price}
-                    onChange={(e) => dispatch(setPrice(Number(e.target.value)))}
-                  />
-                  <p>Selected Price: {price}</p>
-                </section>
-
-                <section className="mb-3">
-                  <h5>Sub Category</h5>
-                  {["Summer", "Winter", "Formal"].map((sub) => (
-                    <div key={sub}>
+                </div>
+                <div className="card-body p-4">
+                  <section className="mb-4 pb-4 border-bottom">
+                    <h6 className="fw-bold mb-3 d-flex align-items-center">
+                      <i className="bi bi-currency-rupee me-2" style={{ color: "#075985", fontSize: "1.1rem" }}></i>
+                      Price Range
+                    </h6>
+                    <div className="px-2">
+                      <div className="d-flex justify-content-between mb-3">
+                        <span className="text-muted small fw-semibold">₹50</span>
+                        <span className="text-muted small fw-semibold">₹150</span>
+                        <span className="text-muted small fw-semibold">₹200</span>
+                      </div>
                       <input
-                        type="checkbox"
-                        value={sub}
-                        checked={subcategory.includes(sub)}
-                        onChange={(e) =>
-                          dispatch(
-                            setSubcategory({
-                              subcategory: sub,
-                              checked: e.target.checked,
-                            })
-                          )
-                        }
-                      />{" "}
-                      {sub}
+                        type="range"
+                        className="form-range"
+                        style={{ accentColor: "#075985" }}
+                        min="50"
+                        max="200"
+                        step="10"
+                        value={price}
+                        onChange={(e) => dispatch(setPrice(Number(e.target.value)))}
+                      />
+                      <div className="mt-3 text-center">
+                        <span className="badge px-3 py-2" style={{ backgroundColor: "#075985", color: "#ffffff", fontSize: "0.9rem" }}>
+                          <i className="bi bi-currency-rupee me-1"></i>
+                          {price}
+                        </span>
+                      </div>
                     </div>
-                  ))}
-                </section>
+                  </section>
 
-                <section className="mb-3">
-                  <h5>Rating</h5>
-                  {[5, 4, 3, 2].map((rate) => (
-                    <div key={rate}>
-                      <input
-                        type="radio"
-                        name="rating"
-                        value={rate}
-                        checked={rating === rate}
-                        onChange={() => dispatch(setRating(rate))}
-                      />{" "}
-                      {"⭐".repeat(rate)}
+                  <section className="mb-4 pb-4 border-bottom">
+                    <h6 className="fw-bold mb-3 d-flex align-items-center">
+                      <i className="bi bi-tags-fill me-2" style={{ color: "#075985", fontSize: "1.1rem" }}></i>
+                      Sub Category
+                    </h6>
+                    <div className="d-flex flex-column gap-2 px-2">
+                      {["Summer", "Winter", "Formal"].map((sub) => (
+                        <div key={sub} className="form-check p-2 rounded" style={{ backgroundColor: subcategory.includes(sub) ? "rgba(7, 89, 133, 0.1)" : "transparent", transition: "all 0.2s" }}>
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id={`subcategory-${sub}`}
+                            value={sub}
+                            checked={subcategory.includes(sub)}
+                            onChange={(e) =>
+                              dispatch(
+                                setSubcategory({
+                                  subcategory: sub,
+                                  checked: e.target.checked,
+                                })
+                              )
+                            }
+                            style={{ accentColor: "#075985", cursor: "pointer" }}
+                          />
+                          <label className="form-check-label" htmlFor={`subcategory-${sub}`} style={{ cursor: "pointer", userSelect: "none" }}>
+                            {sub}
+                          </label>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </section>
+                  </section>
 
-                <section className="mb-3">
-                  <h5>Sort by Price</h5>
-                  <input
-                    type="radio"
-                    name="sortByPrice"
-                    value="lowToHigh"
-                    checked={sortByPrice === "lowToHigh"}
-                    onChange={(e) => dispatch(setSortByPrice(e.target.value))}
-                  />{" "}
-                  Low to High <br />
-                  <input
-                    type="radio"
-                    name="sortByPrice"
-                    value="highToLow"
-                    checked={sortByPrice === "highToLow"}
-                    onChange={(e) => dispatch(setSortByPrice(e.target.value))}
-                  />{" "}
-                  High to Low
-                </section>
+                  <section className="mb-4 pb-4 border-bottom">
+                    <h6 className="fw-bold mb-3 d-flex align-items-center">
+                      <i className="bi bi-star-fill me-2" style={{ color: "#075985", fontSize: "1.1rem" }}></i>
+                      Rating
+                    </h6>
+                    <div className="d-flex flex-column gap-2 px-2">
+                      {[5, 4, 3, 2].map((rate) => (
+                        <div key={rate} className="form-check p-2 rounded" style={{ backgroundColor: rating === rate ? "rgba(7, 89, 133, 0.1)" : "transparent", transition: "all 0.2s" }}>
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="rating"
+                            id={`rating-${rate}`}
+                            value={rate}
+                            checked={rating === rate}
+                            onChange={() => dispatch(setRating(rate))}
+                            style={{ accentColor: "#075985", cursor: "pointer" }}
+                          />
+                          <label className="form-check-label d-flex align-items-center" htmlFor={`rating-${rate}`} style={{ cursor: "pointer", userSelect: "none" }}>
+                            <span className="me-2">
+                              {Array(rate).fill(0).map((_, i) => (
+                                <i key={i} className="bi bi-star-fill text-warning"></i>
+                              ))}
+                            </span>
+                            <span className="text-muted small">({rate} stars & above)</span>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="mb-0">
+                    <h6 className="fw-bold mb-3 d-flex align-items-center">
+                      <i className="bi bi-sort-down me-2" style={{ color: "#075985", fontSize: "1.1rem" }}></i>
+                      Sort by Price
+                    </h6>
+                    <div className="d-flex flex-column gap-2 px-2">
+                      <div className="form-check p-2 rounded" style={{ backgroundColor: sortByPrice === "lowToHigh" ? "rgba(7, 89, 133, 0.1)" : "transparent", transition: "all 0.2s" }}>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="sortByPrice"
+                          id="sort-low"
+                          value="lowToHigh"
+                          checked={sortByPrice === "lowToHigh"}
+                          onChange={(e) => dispatch(setSortByPrice(e.target.value))}
+                          style={{ accentColor: "#075985", cursor: "pointer" }}
+                        />
+                        <label className="form-check-label d-flex align-items-center" htmlFor="sort-low" style={{ cursor: "pointer", userSelect: "none" }}>
+                          <i className="bi bi-arrow-up me-2" style={{ color: "#075985" }}></i>
+                          Low to High
+                        </label>
+                      </div>
+                      <div className="form-check p-2 rounded" style={{ backgroundColor: sortByPrice === "highToLow" ? "rgba(7, 89, 133, 0.1)" : "transparent", transition: "all 0.2s" }}>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="sortByPrice"
+                          id="sort-high"
+                          value="highToLow"
+                          checked={sortByPrice === "highToLow"}
+                          onChange={(e) => dispatch(setSortByPrice(e.target.value))}
+                          style={{ accentColor: "#075985", cursor: "pointer" }}
+                        />
+                        <label className="form-check-label d-flex align-items-center" htmlFor="sort-high" style={{ cursor: "pointer", userSelect: "none" }}>
+                          <i className="bi bi-arrow-down me-2" style={{ color: "#075985" }}></i>
+                          High to Low
+                        </label>
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="col-md-9 card px-3 py-3">
-            <div className="row">
-              {status === "loading" ? (
-                <h4 className="text-center">Loading products...</h4>
-              ) : error ? (
-                <h4 className="text-danger text-center">Error: {error}</h4>
-              ) : products.length === 0 ? (
-                <h4 className="text-center">No products found.</h4>
-              ) : (
-                products.map((product) => (
-                  <div className="col-md-4 mb-4" key={product._id}>
-                    <div className="card h-100 position-relative">
-                      <Link
-                        to={`/product/${product._id}`}
-                        className="text-decoration-none text-dark"
-                      >
-                        <img
-                          src={product.image}
-                          className="card-img-top img-fluid"
-                          alt="productImg"
-                          style={{ height: "200px", objectFit: "cover" }}
-                        />
-                      </Link>
-
-                      <div className="card-body d-flex flex-column">
-                        <h5 className="card-title">{product.name}</h5>
-                        <p>Price: {product.price}</p>
-                        <p>Rating: {product.rating} ⭐</p>
-
-                        {isInCart(product.name) ? (
-                          <button
-                            className="btn btn-success me-2"
-                            onClick={() => navigate("/cart")}
-                          >
-                            Go to Cart
-                          </button>
-                        ) : (
-                          <button
-                            className="btn btn-primary me-2"
-                            onClick={() => handleAddToCart(product)}
-                          >
-                            Add to Cart
-                          </button>
-                        )}
+          <div className="col-md-9">
+            <div className="card shadow-sm px-3 py-3">
+              <div className="row">
+                {status === "loading" ? (
+                  <div className="col-12 text-center py-5">
+                    <div className="spinner-border text-primary" role="status" style={{ color: "#075985" }}>
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <p className="mt-3">Loading products...</p>
+                  </div>
+                ) : error ? (
+                  <div className="col-12">
+                    <div className="alert alert-danger" role="alert">
+                      <i className="bi bi-exclamation-triangle me-2"></i>
+                      Error: {error}
+                    </div>
+                  </div>
+                ) : products.length === 0 ? (
+                  <div className="col-12 text-center py-5">
+                    <i className="bi bi-inbox" style={{ color: "#075985", fontSize: "3rem", marginBottom: "1rem" }}></i>
+                    <h5 className="mb-2">No products found</h5>
+                    <p className="text-muted">Try adjusting your filters or search terms.</p>
+                  </div>
+                ) : (
+                  products.map((product) => (
+                    <div className="col-md-4 mb-4" key={product._id}>
+                      <div className="card shadow-sm h-100 position-relative">
+                        <Link
+                          to={`/product/${product._id}`}
+                          className="text-decoration-none text-dark"
+                        >
+                          <img
+                            src={product.image}
+                            className="card-img-top img-fluid"
+                            alt={product.name}
+                            style={{ height: "200px", objectFit: "cover" }}
+                          />
+                        </Link>
 
                         <button
-                          className="btn btn-light position-absolute top-0 end-0 m-2"
+                          className="btn btn-sm position-absolute top-0 end-0 m-2"
+                          style={{
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "36px",
+                            height: "36px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            padding: 0,
+                          }}
                           onClick={() => {
                             if (
                               wishlist.some((item) => item._id === product._id)
@@ -256,15 +356,73 @@ const ProductListingPage = () => {
                             className={
                               wishlist.some((item) => item._id === product._id)
                                 ? "bi bi-heart-fill text-danger"
-                                : "bi bi-heart"
+                                : "bi bi-heart text-dark"
                             }
                           ></i>
                         </button>
+
+                        <div className="card-body d-flex flex-column">
+                          <h5 className="card-title">{product.name}</h5>
+                          <p className="fw-bold fs-5 mb-2">
+                            <i className="bi bi-currency-rupee me-1"></i>
+                            {product.price}
+                          </p>
+                          <p className="mb-3">
+                            <i className="bi bi-star-fill text-warning me-1"></i>
+                            {product.rating} Rating
+                          </p>
+
+                          <div className="mt-auto">
+                            {isInCart(product.name) ? (
+                              <button
+                                className="btn w-100"
+                                style={{
+                                  backgroundColor: "#28a745",
+                                  color: "#ffffff",
+                                  borderColor: "#28a745",
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.target.style.backgroundColor = "#218838";
+                                  e.target.style.borderColor = "#218838";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.target.style.backgroundColor = "#28a745";
+                                  e.target.style.borderColor = "#28a745";
+                                }}
+                                onClick={() => navigate("/cart")}
+                              >
+                                <i className="bi bi-cart-check me-2"></i>
+                                Go to Cart
+                              </button>
+                            ) : (
+                              <button
+                                className="btn w-100"
+                                style={{
+                                  backgroundColor: "#075985",
+                                  color: "#ffffff",
+                                  borderColor: "#075985",
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.target.style.backgroundColor = "#0c4a6e";
+                                  e.target.style.borderColor = "#0c4a6e";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.target.style.backgroundColor = "#075985";
+                                  e.target.style.borderColor = "#075985";
+                                }}
+                                onClick={() => handleAddToCart(product)}
+                              >
+                                <i className="bi bi-cart-plus me-2"></i>
+                                Add to Cart
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
-              )}
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </div>
