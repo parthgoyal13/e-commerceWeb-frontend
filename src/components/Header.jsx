@@ -86,6 +86,15 @@ const Header = () => {
     }
   };
 
+  const getInitials = (name) => {
+    if (!name) return "?";
+    const nameParts = name.trim().split(" ");
+    if (nameParts.length === 1) {
+      return nameParts[0].charAt(0).toUpperCase();
+    }
+    return (nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0)).toUpperCase();
+  };
+
   return (
     <>
       <header style={{ backgroundColor: "#0c4a6e" }}>
@@ -166,7 +175,23 @@ const Header = () => {
                   onClick={() => setShowLoginDropdown(!showLoginDropdown)}
                   style={{ cursor: "pointer" }}
                 >
-                  <i className="bi bi-person"></i>
+                  {isLoggedIn && user?.name ? (
+                    <div
+                      className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bold"
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        backgroundColor: "#ffffff",
+                        color: "#0c4a6e",
+                        fontSize: "0.875rem",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {getInitials(user.name)}
+                    </div>
+                  ) : (
+                    <i className="bi bi-person"></i>
+                  )}
                   <span>{isLoggedIn ? (user?.name || "Account") : "Login"}</span>
                   <i className={`bi ${showLoginDropdown ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
                 </button>
