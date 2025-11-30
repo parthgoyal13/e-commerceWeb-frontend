@@ -70,7 +70,7 @@ const ProductListingPage = () => {
   return (
     <>
       <Header />
-      <div className="container mt-4">
+      <div className="container my-5">
         <h2 className="text-center mb-4">
           {category === "Shop" ? "All Products" : `Products in ${category}`}
         </h2>
