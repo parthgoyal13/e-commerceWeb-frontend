@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/userAuthSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { user, loading, error } = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
@@ -16,11 +18,13 @@ const LoginPage = () => {
   useEffect(() => {
     if (user && !error && success) {
       const timer = setTimeout(() => {
-        navigate("/profile");
+        // Redirect to the page user was trying to access, or profile as default
+        const from = location.state?.from?.pathname || "/profile";
+        navigate(from, { replace: true });
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [user, error, success, navigate]);
+  }, [user, error, success, navigate, location]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,38 +36,17 @@ const LoginPage = () => {
     }
   };
 
-  const handleClose = () => {
-    navigate(-1);
-  };
-
   return (
     <>
       <Header />
-      <div
-        className="modal fade show"
-        style={{ display: "block" }}
-        tabIndex="-1"
-        role="dialog"
-        onClick={handleClose}
-      >
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-header">
-              <div className="flex-grow-1">
-                <h5 className="modal-title">Login</h5>
-                <span className="d-block">Get access to your Orders, Wishlist and Recommendations</span>
-              </div>
-              <button
-                type="button"
-                className="btn-close"
-                aria-label="Close"
-                onClick={handleClose}
-              ></button>
-            </div>
-            <div className="modal-body">
+      <div className="container mt-5">
+        <h2 className="text-center mb-4">Login</h2>
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-5">
+            <div className="card p-4">
+              <p className="text-center text-muted mb-4">
+                Get access to your Orders, Wishlist and Recommendations
+              </p>
               <form onSubmit={handleLogin}>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
@@ -95,9 +78,11 @@ const LoginPage = () => {
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
                 {success && (
-                  <div className="alert alert-success">Login successful!</div>
+                  <div className="alert alert-success">
+                    Login successful! Redirecting...
+                  </div>
                 )}
-                <div className="d-grid">
+                <div className="d-grid mb-3">
                   <button
                     className="btn btn-primary"
                     type="submit"
@@ -107,11 +92,19 @@ const LoginPage = () => {
                   </button>
                 </div>
               </form>
+              <div className="text-center">
+                <p className="mb-0">
+                  Don't have an account?{" "}
+                  <Link to="/signup" className="text-decoration-none">
+                    Sign up
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="modal-backdrop fade show" onClick={handleClose}></div>
+      <Footer />
     </>
   );
 };

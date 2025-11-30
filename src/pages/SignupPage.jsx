@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../redux/userAuthSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const SignupPage = () => {
   const dispatch = useDispatch();
@@ -43,38 +44,17 @@ const SignupPage = () => {
     }
   }, [success, navigate]);
 
-  const handleClose = () => {
-    navigate(-1);
-  };
-
   return (
     <>
       <Header />
-      <div
-        className="modal fade show"
-        style={{ display: "block" }}
-        tabIndex="-1"
-        role="dialog"
-        onClick={handleClose}
-      >
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-header">
-              <div className="flex-grow-1">
-                <h5 className="modal-title">Signup</h5>
-                <span className="d-block">Create your account to get started</span>
-              </div>
-              <button
-                type="button"
-                className="btn-close"
-                aria-label="Close"
-                onClick={handleClose}
-              ></button>
-            </div>
-            <div className="modal-body">
+      <div className="container mt-5">
+        <h2 className="text-center mb-4">Signup</h2>
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-5">
+            <div className="card p-4">
+              <p className="text-center text-muted mb-4">
+                Create your account to get started
+              </p>
               <form onSubmit={handleSignup}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
@@ -140,7 +120,7 @@ const SignupPage = () => {
                     Signup successful! Redirecting to login...
                   </div>
                 )}
-                <div className="d-grid">
+                <div className="d-grid mb-3">
                   <button
                     className="btn btn-success"
                     type="submit"
@@ -150,11 +130,19 @@ const SignupPage = () => {
                   </button>
                 </div>
               </form>
+              <div className="text-center">
+                <p className="mb-0">
+                  Already have an account?{" "}
+                  <Link to="/login" className="text-decoration-none">
+                    Login
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="modal-backdrop fade show" onClick={handleClose}></div>
+      <Footer />
     </>
   );
 };

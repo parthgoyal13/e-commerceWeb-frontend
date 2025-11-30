@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { loadUserFromStorage } from "./redux/userAuthSlice";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,12 +30,40 @@ function App() {
         <Route path="/products/:category" element={<ProductListingPage />} />
         <Route path="/search/:searchTerm" element={<ProductListingPage />} />
         <Route path="/product/:productId" element={<ProductDetail />} />{" "}
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/wishlist" element={<Wishlist />} />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/wishlist"
+          element={
+            <ProtectedRoute>
+              <Wishlist />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/address" element={<Address />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/order" element={<OrderPage />} />
-        <Route path="/profile" element={<UserProfile />} />
+        <Route
+          path="/order"
+          element={
+            <ProtectedRoute>
+              <OrderPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
       </Routes>
