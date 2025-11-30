@@ -122,9 +122,26 @@ const SignupPage = () => {
                 )}
                 <div className="d-grid mb-3">
                   <button
-                    className="btn btn-success"
+                    className="btn"
                     type="submit"
                     disabled={loading}
+                    style={{
+                      backgroundColor: "#075985",
+                      color: "#ffffff",
+                      borderColor: "#075985"
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) {
+                        e.target.style.backgroundColor = "#0c4a6e";
+                        e.target.style.borderColor = "#0c4a6e";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) {
+                        e.target.style.backgroundColor = "#075985";
+                        e.target.style.borderColor = "#075985";
+                      }
+                    }}
                   >
                     {loading ? "Signing up..." : "Signup"}
                   </button>

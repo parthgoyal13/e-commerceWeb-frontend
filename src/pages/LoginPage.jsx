@@ -39,7 +39,7 @@ const LoginPage = () => {
   return (
     <>
       <Header />
-      <div className="container mt-5">
+      <div className="container my-5">
         <h2 className="text-center mb-4">Login</h2>
         <div className="row justify-content-center">
           <div className="col-md-6 col-lg-5">
@@ -84,9 +84,26 @@ const LoginPage = () => {
                 )}
                 <div className="d-grid mb-3">
                   <button
-                    className="btn btn-primary"
+                    className="btn"
                     type="submit"
                     disabled={loading}
+                    style={{
+                      backgroundColor: "#075985",
+                      color: "#ffffff",
+                      borderColor: "#075985"
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) {
+                        e.target.style.backgroundColor = "#0c4a6e";
+                        e.target.style.borderColor = "#0c4a6e";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) {
+                        e.target.style.backgroundColor = "#075985";
+                        e.target.style.borderColor = "#075985";
+                      }
+                    }}
                   >
                     {loading ? "Logging in..." : "Login"}
                   </button>
