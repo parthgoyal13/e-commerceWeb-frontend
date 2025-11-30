@@ -85,6 +85,24 @@ const ResetPasswordPage = () => {
         <div className="row justify-content-center">
           <div className="col-md-6 col-lg-5">
             <div className="card p-4">
+              {!urlToken && (
+                <div className="mb-3">
+                  <label htmlFor="resetToken" className="form-label">
+                    Reset Token
+                  </label>
+                  <input
+                    id="resetToken"
+                    className="form-control"
+                    type="text"
+                    placeholder="Paste your reset token here"
+                    value={manualToken}
+                    onChange={(e) => setManualToken(e.target.value)}
+                  />
+                  <small className="text-muted">
+                    If the token wasn't detected from the URL, paste it here
+                  </small>
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="newPassword" className="form-label">
