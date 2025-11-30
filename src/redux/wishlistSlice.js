@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const url = "https://e-commerce-web-backend-alpha.vercel.app/wishlist";
+const url = `${import.meta.env.VITE_API_URL}/wishlist`;
 
 export const fetchWishlist = createAsyncThunk(
   "wishlist/fetchWishlist",

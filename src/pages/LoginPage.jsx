@@ -13,6 +13,7 @@ const LoginPage = () => {
   const { user, loading, error } = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -66,15 +67,33 @@ const LoginPage = () => {
                   <label htmlFor="password" className="form-label">
                     Password
                   </label>
-                  <input
-                    id="password"
-                    className="form-control"
-                    type="password"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
+                  <div className="position-relative">
+                    <input
+                      id="password"
+                      className="form-control"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      style={{ paddingRight: "40px" }}
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{
+                        border: "none",
+                        background: "none",
+                        padding: "0 10px",
+                        color: "#6c757d",
+                        textDecoration: "none"
+                      }}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+                    </button>
+                  </div>
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
                 {success && (

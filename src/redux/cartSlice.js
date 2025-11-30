@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const url = "https://e-commerce-web-backend-alpha.vercel.app/cart";
+const url = `${import.meta.env.VITE_API_URL}/cart`;
 
 export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
   const response = await axios.get(url);
@@ -32,7 +32,7 @@ export const updateCartQuantity = createAsyncThunk(
 
 export const clearCart = createAsyncThunk("cart/clear", async (_, thunkAPI) => {
   try {
-    await axios.delete(`https://e-commerce-web-backend-alpha.vercel.app/cart`);
+    await axios.delete(`${import.meta.env.VITE_API_URL}/cart`);
     return [];
   } catch (error) {
     return thunkAPI.rejectWithValue("Failed to clear cart");
