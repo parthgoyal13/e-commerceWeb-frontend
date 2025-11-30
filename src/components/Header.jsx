@@ -167,7 +167,7 @@ const Header = () => {
                   style={{ cursor: "pointer" }}
                 >
                   <i className="bi bi-person"></i>
-                  <span>{isLoggedIn ? (user?.firstName || user?.email || "Account") : "Login"}</span>
+                  <span>{isLoggedIn ? (user?.name || "Account") : "Login"}</span>
                   <i className={`bi ${showLoginDropdown ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
                 </button>
                 {showLoginDropdown && (
