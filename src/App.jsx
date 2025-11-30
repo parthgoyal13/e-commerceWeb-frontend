@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { loadUserFromStorage } from "./redux/userAuthSlice";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -66,6 +68,10 @@ function App() {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/reset-password/*" element={<ResetPasswordPage />} />
+        <Route path="*" element={<div style={{ padding: "20px", textAlign: "center" }}>Page not found</div>} />
       </Routes>
       <ToastContainer position="top-right" autoClose={2000} />
     </>

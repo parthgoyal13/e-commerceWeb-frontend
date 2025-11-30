@@ -95,6 +95,11 @@ const LoginPage = () => {
                     </button>
                   </div>
                 </div>
+                <div className="mb-3 text-end">
+                  <Link to="/forgot-password" className="text-decoration-none">
+                    Forgot Password?
+                  </Link>
+                </div>
                 {error && <div className="alert alert-danger">{error}</div>}
                 {success && (
                   <div className="alert alert-success">
