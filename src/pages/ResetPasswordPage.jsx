@@ -9,6 +9,8 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -108,31 +110,73 @@ const ResetPasswordPage = () => {
                   <label htmlFor="newPassword" className="form-label">
                     New Password
                   </label>
-                  <input
-                    id="newPassword"
-                    className="form-control"
-                    type="password"
-                    placeholder="Enter new password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                    minLength={6}
-                  />
+                  <div className="position-relative">
+                    <input
+                      id="newPassword"
+                      className="form-control"
+                      type={showNewPassword ? "text" : "password"}
+                      placeholder="Enter new password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      required
+                      minLength={6}
+                      style={{ paddingRight: "40px" }}
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      style={{
+                        border: "none",
+                        background: "none",
+                        padding: "0 10px",
+                        color: "#6c757d",
+                        textDecoration: "none",
+                        zIndex: 10,
+                        cursor: "pointer",
+                        outline: "none"
+                      }}
+                      aria-label={showNewPassword ? "Hide password" : "Show password"}
+                    >
+                      <i className={showNewPassword ? "bi bi-eye-slash" : "bi bi-eye"} style={{ fontSize: "18px" }}></i>
+                    </button>
+                  </div>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="confirmPassword" className="form-label">
                     Confirm Password
                   </label>
-                  <input
-                    id="confirmPassword"
-                    className="form-control"
-                    type="password"
-                    placeholder="Confirm new password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    minLength={6}
-                  />
+                  <div className="position-relative">
+                    <input
+                      id="confirmPassword"
+                      className="form-control"
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirm new password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required
+                      minLength={6}
+                      style={{ paddingRight: "40px" }}
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      style={{
+                        border: "none",
+                        background: "none",
+                        padding: "0 10px",
+                        color: "#6c757d",
+                        textDecoration: "none",
+                        zIndex: 10,
+                        cursor: "pointer",
+                        outline: "none"
+                      }}
+                      aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    >
+                      <i className={showConfirmPassword ? "bi bi-eye-slash" : "bi bi-eye"} style={{ fontSize: "18px" }}></i>
+                    </button>
+                  </div>
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
                 {message && (
